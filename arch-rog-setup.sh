@@ -21,7 +21,7 @@ echo -e "${NC}"
 # ============================================================
 # YAY (AUR Helper)
 # ============================================================
-echo -e "${GREEN}[1/6]${NC} Installation de yay..."
+echo -e "${GREEN}[1/5]${NC} Installation de yay..."
 
 if ! command -v yay &> /dev/null; then
     sudo pacman -S --needed --noconfirm base-devel git
@@ -37,31 +37,9 @@ else
 fi
 
 # ============================================================
-# NVIDIA Drivers
-# ============================================================
-echo -e "${GREEN}[2/6]${NC} Installation drivers NVIDIA..."
-
-sudo pacman -S --needed --noconfirm \
-    nvidia-dkms \
-    nvidia-utils \
-    lib32-nvidia-utils \
-    nvidia-settings \
-    linux-headers \
-    egl-wayland \
-    libva-nvidia-driver
-
-# Config NVIDIA pour Wayland
-sudo tee /etc/modprobe.d/nvidia.conf > /dev/null << 'EOF'
-options nvidia_drm modeset=1
-options nvidia NVreg_PreserveVideoMemoryAllocations=1
-EOF
-
-echo -e "${GREEN}✓${NC} Drivers NVIDIA installés"
-
-# ============================================================
 # ASUS ROG Tools
 # ============================================================
-echo -e "${GREEN}[3/6]${NC} Installation outils ASUS ROG..."
+echo -e "${GREEN}[2/5]${NC} Installation outils ASUS ROG..."
 
 yay -S --needed --noconfirm \
     asusctl \
@@ -76,7 +54,7 @@ echo -e "${GREEN}✓${NC} Outils ASUS ROG installés"
 # ============================================================
 # Applications (Brave, Discord, Deezer)
 # ============================================================
-echo -e "${GREEN}[4/6]${NC} Installation applications..."
+echo -e "${GREEN}[3/5]${NC} Installation applications...""
 
 echo "  → Brave..."
 yay -S --needed --noconfirm brave-bin
@@ -92,7 +70,7 @@ echo -e "${GREEN}✓${NC} Applications installées"
 # ============================================================
 # Remplacer Dolphin par Nautilus
 # ============================================================
-echo -e "${GREEN}[5/6]${NC} Remplacement Dolphin → Nautilus..."
+echo -e "${GREEN}[4/5]${NC} Remplacement Dolphin → Nautilus...""
 
 # Supprimer Dolphin si installé
 sudo pacman -Rns --noconfirm dolphin dolphin-plugins 2>/dev/null || true
@@ -105,7 +83,7 @@ echo -e "${GREEN}✓${NC} Nautilus installé"
 # ============================================================
 # Extras utiles
 # ============================================================
-echo -e "${GREEN}[6/6]${NC} Installation extras..."
+echo -e "${GREEN}[5/5]${NC} Installation extras...""
 
 sudo pacman -S --needed --noconfirm \
     pipewire \
@@ -128,12 +106,6 @@ sudo systemctl enable --now bluetooth 2>/dev/null || true
 echo -e "${GREEN}✓${NC} Extras installés"
 
 # ============================================================
-# Régénérer initramfs
-# ============================================================
-echo -e "${YELLOW}[*]${NC} Régénération initramfs..."
-sudo mkinitcpio -P
-
-# ============================================================
 # Fin
 # ============================================================
 echo ""
@@ -142,7 +114,6 @@ echo -e "${CYAN}║          Installation terminée !          ║${NC}"
 echo -e "${CYAN}╚═══════════════════════════════════════════╝${NC}"
 echo ""
 echo -e "${GREEN}Installé:${NC}"
-echo "  ✓ Drivers NVIDIA"
 echo "  ✓ ASUS ROG (asusctl, supergfxctl, rog-control-center)"
 echo "  ✓ Brave"
 echo "  ✓ Discord"
@@ -151,10 +122,4 @@ echo "  ✓ Nautilus (Dolphin supprimé)"
 echo "  ✓ Audio (Pipewire)"
 echo "  ✓ Bluetooth"
 echo ""
-echo -e "${YELLOW}⚠ Reboot recommandé pour activer les drivers NVIDIA${NC}"
-echo ""
-read -p "Reboot maintenant ? (y/n) " -n 1 -r
-echo
-if [[ $REPLY =~ ^[Yy]$ ]]; then
-    sudo reboot
-fi
+echo -e "${GREEN}C'est bon, tout est installé !${NC}"
